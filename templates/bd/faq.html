@@ -1,0 +1,28 @@
+﻿{% extends "base.html" %}
+
+{% block extrascript %}
+<title>Чаво</title>
+{% endblock %}
+
+{% block content %}
+<h1>Часто Задаваемые Вопросы</h1>
+{% endblock %}
+
+{% block section %}
+<script type=text/javascript>
+function load() {
+$.post("/faq/", { 
+    name: "Monty",
+    food: "Spam" 
+  },
+    function(data) {
+        alert(data);
+    }
+ );
+}
+{% csrf_token %}
+</script>
+
+<img style="align:left;" src="/site_static/img/panda-question.png">
+
+{% endblock %}

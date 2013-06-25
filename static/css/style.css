@@ -1,0 +1,61 @@
+body {
+margin:0;
+padding:0
+}
+
+#head_logo {
+background:url(/site_static/img/headl.png) no-repeat;
+float:left;
+height:58px;
+width:360px;
+margin:0
+}
+
+#head {
+font-size:14px;
+height:38px;
+margin-left:336px;
+padding-top:20px;
+padding-right:20px;
+text-align:right;
+background:url(/site_static/img/l.png) repeat
+}
+
+#body {
+width:100%;
+height:100%;
+float:left;
+font-size:18pt;
+position:absolute;
+overflow:hidden;
+background:url(/site_static/img/os.png) repeat fixed center
+}
+
+#footer {
+height:90px;
+position:absolute;
+font-size:12px;
+left:0;
+bottom:0;
+width:100%;
+text-align:center;
+border:1px #333
+}
+
+#align_to_left {
+position:relative;
+right:50%;
+float:right
+}
+
+#align_to_right {
+position:relative;
+z-index:1;
+right:-50%;
+margin:15px;
+padding:10px
+}
+
+h1 {
+text-align:center
+}

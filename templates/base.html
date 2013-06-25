@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/site_static/css/base.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="/site_static/css/nav.css" type="text/css" media="all" />
+        <link id='theme' rel='stylesheet' href='/site_static/css/libnotify.css'/>
+ 	<link rel="icon" href="/site_static/img/logo.ico" />
+	<link rel="stylesheet" href="/site_static/css/jquery.popup.css" type="text/css">
+
+	<script src="/site_static/js/jquery-2.0.0.min.js"></script>
+
+	<script src="/site_static/js/jquery.popup.js" type="text/javascript"></script>
+
+	<script src="/site_static/js/ajaxsend.js"></script>
+        <script src='/site_static/js/humane.js'></script>
+	<script src="/site_static/js/accwork.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			$(".popup-anch a").simplePopup();
+		});
+	</script>
+
+	{% block extrascript %}{% endblock %}
+</head>
+<body>
+
+<div class='main'>
+
+
+{% block hiddenelement %}{% endblock %}
+	<header class="h">
+		<div id="head_logo"></div>
+		<div id="head">
+		  {% if user.is_authenticated %}
+		  	<a href="#" onclick="doOut();">Выйти</a>
+		  {% else %}
+			<div class="popup-anch"><a href="#">Войти</a></div>
+		  {% endif %}
+		</div>
+	</header>
+
+	<div class="popup-body"></div>
+	<div class="popup">
+		<a href="#" class="popup-close" title="Закрыть"></a>
+		<div class="modal  fade" id="authPopup">
+
+		<form  class="form-popup" action='#' method='post' onSubmit="return false;">
+			{% csrf_token %}
+		    <table class="popup">               
+		      <tr >
+			    <td><label for="username">Логин:</label> <input autofocus="autofocus" type="text" placeholder="Имя пользователя" name="username" value="" id="username" required></td>
+		     </tr>
+	                     <tr>
+			    <td><label for="password">Пароль:</label> <input type="password" placeholder="Пароль" name="password" value="" id="password" required></td>
+		     </tr>
+	                     <tr>
+			    <td><input type="submit"  onclick="dologin();"  style="align:center;" value="Вход" /> </td>
+
+		     </tr>
+
+		    </table>            
+		</form>
+		</div>
+	</div>
+	
+
+	<nav>
+	           <ul class="fancyNav">
+	                <li id="Home"><a href="/hello" class="homeIcon">Заглавная</a></li>
+	                <li id="contact"><a href="/upgmaker">Сборщик</a></li>
+	                <li id="knowledge"><a href="/knowledge">База знаний</a></li>
+	                <li id="faq"><a href="/faq">F.A.Q.</a></li>
+	                <li id="about"><a href="/about">О проекте</a></li>
+	            </ul>
+	</nav>
+
+               <section>{% block content %}{% endblock %}</section>
+
+               <aside>{% block side %}{% endblock %}</aside>
+
+	<section>{% block section %}{% endblock %}</section>
+
+                <footer>
+                       <address>
+
+          для внутреннего пользования БАРС Бюджет <BR />
+		  предложения и пожелания <a href="mailto:valiullin@bars-open.ru" >valiullin@bars-open.ru</a>
+	        </address>
+
+<!-- Yandex.Metrika informer --><a href="http://metrika.yandex.ru/stat/?id=13085689&amp;from=informer" target="_blank" rel="nofollow"><img src="//bs.yandex.ru/informer/13085689/3_0_EEEEEEFF_CECECEFF_0_pageviews" style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" onclick="try{Ya.Metrika.informer({i:this,id:13085689,type:0,lang:'ru'});return false}catch(e){}"/></a><!-- /Yandex.Metrika informer --><!-- Yandex.Metrika counter --><script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script><div style="display:none;"><script type="text/javascript">try { var yaCounter13085689 = new Ya.Metrika({id:13085689, enableAll: true, ut:"noindex", webvisor:true});} catch(e) { }</script></div><noscript><div><img src="//mc.yandex.ru/watch/13085689?ut=noindex" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+
+        <script  src="/site_static/orphus/orphus.js"></script>
+        <a href="http://orphus.ru" id="orphus" target="_blank"><img alt="Система Orphus" src="/site_static/orphus/orphus.gif" border="0" width="257" height="48" /></a>
+
+
+               </footer>
+
+</div>
+
+</body>
+
+</html>

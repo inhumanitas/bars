@@ -1,0 +1,94 @@
+﻿{% extends "base.html" %}
+{% block extrascript %}
+
+<script src='/site_static//js/jqplot/excanvas.min.js'></script>
+<script src='/site_static/js/jqplot/jquery.jqplot.min.css'></script>
+<script src='/site_static/js/jqplot/jquery.jqplot.min.js'></script>
+
+<title>Новости сайта</title>
+    <style type="text/css">
+    .conteiner{
+        padding:0 0 0 20px;
+        text-align:right;
+    }
+    section{
+        height:100%;
+    }
+    name{
+        font-weight:bold;
+        text-align:left;
+    }
+    </style>
+
+
+  <script>
+      $(document).ready(function(){
+            $(".conteiner ").click(function () {
+                var str= $(this).find("text").html();
+                $("span").html(str);
+	$(".conteiner ").find("a").css('color','#4449c4');
+	$(this).find("a").css('color','#cecece');
+
+            });
+      });
+
+
+	$(function(){
+	  line1 = [[2,1],[2,4],[3,8],[4,1],[5,8],[6,4],[7,2]];
+	  line2 = [[1,1],[2,4],[3,8],[4,1],[5,8],[6,4],[7,2]];
+	  line3 = [16, 16, 12, 18, 26, 24, 6];
+	  $.jqplot("graphic",
+	           [line1,line2,line3],
+	           {
+	             title: "Демонстрационный график",
+	             axes: {
+	                yaxis: {
+	                    min:0, max:30
+	                 },
+	                 xaxis: {
+	                    min:0, max:8
+	                 }
+	             },
+	             series: [
+	               { color:"#4bb2c5",label:"Николай" },
+	               { color:"#EAA228",label:"Алексей" },
+	               { color:"#839557",label:"Василий" }
+	             ],
+	             legend: {
+	                show: true,
+	                location: "ne",
+	                xoffset: 12,
+	                yoffset: 12 }
+	           }
+	          );
+	});
+
+  </script>
+{% endblock %}
+
+{% block content %}
+fff
+{% endblock %}
+
+{% block side %}
+
+    {% for head,text in log_lines.items %}
+    	<div class="conteiner">
+           	<a href="#" title=""  >{{head}}</a>
+                <text style="display: none;">
+                    <h4 >{{head}}</h4>
+		        <div style = "border: 2px  solid;border-color:#c0c0c0;">
+		                        <name>{{ title }}</name>
+			        <br/><br/>
+		                        <h5>{{ text }}</h5>
+		        </div>
+                </text>
+         </div>
+     {% endfor %}
+
+{% endblock %}
+     
+{% block section %}
+     <span style="height: 100px;"></span>
+<div id="graphic" style="height:520px; width:500px;"></div>
+{% endblock %}

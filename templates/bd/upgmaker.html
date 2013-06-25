@@ -1,0 +1,144 @@
+﻿{% extends "base.html" %}
+
+{% block extrascript %}
+<title>Сборщик обновлений</title>
+
+    <link rel="stylesheet" href="/site_static/css/btn.css" type="text/css" media="all" />
+    <style type="text/css">
+      .conteiner{
+          padding:20px 0 0 20px;
+          text-align:right;
+      }
+    </style>
+
+    <script type="text/javascript"       src='/site_static/js/tinycon.min.js'></script>
+
+    <script>
+      var SELECTEDBRANCH = ""
+
+      $(document).ready(function(){
+         update();
+         setInterval('update()',12000);
+         setInterval('getChlists(SELECTEDBRANCH)',2000);
+        $(".conteiner ").click(function () {
+            var str= $(this).find("text").text();
+            SELECTEDBRANCH=$(this).find("p").text();
+            $("span").text(str);
+	    $("pre").text("");
+            // hide all show only current buttom
+            $(".branch").each(function(i, el){
+                $(this).hide();
+            });
+
+            $("#"+$(this).find("p").attr('but')).show();
+        });
+    });
+
+    function runbranch(data) {
+        $("#loading").fadeIn(250);
+	$("pre").text("");
+        $.post("/runbranch/", {
+            "branch":data
+          },function(data) {
+                        var ErrorStr = 'html'
+                        if (data.indexOf(ErrorStr)+1){
+                            alert('Страница будет перезагружена!!')
+                            window.location.reload();
+                            return 1
+                        }
+            $("span").text(data);
+	    $("pre").text("");
+            $(".branch").each(function(i, el){
+                    $(this).hide();
+                        });
+
+        })
+        .error(function() {
+            humane.log("<b>ошибка при запуске</b>");
+            $("#loading").fadeOut(250);
+        })
+        .success(function() {
+            humane.log("<b>ветка запущена</b>");
+            $("#loading").fadeOut(20);
+        });
+    }
+
+    function update(){
+        $.getJSON('/getlog/', function(json) {
+            $.each(json, function(branch,text){
+            $(".conteiner ").each(function (i,el) {
+                var curBranch= $(el).find("p").text();
+                if (curBranch ==  branch){
+                    $(el).find("text").text(text);
+                };
+                if (curBranch == SELECTEDBRANCH){
+                            $("span").text($(el).find("text").text());
+                                };
+            });
+            });
+        });
+    };
+
+
+    function getChlists(branch){
+	var changelist = $("pre").text().length
+	if (branch.lenght<=0){
+		branch = SELECTEDBRANCH
+	}
+
+	if (branch.length>0 && changelist<=0){
+		$.post("/getChlists/", {
+        	    "branch":branch
+	        	},function(data) {
+	        	    $("pre").text(data);
+      		});
+	}
+    };
+
+  </script>
+
+{% endblock %}
+
+{% block hiddenelement %}
+    <div class=".popup-body" id="loading" style="display:none; background:#000; left:0; top:0; position:fixed; width:100%; height:100%; opacity:0.5;z-index:10;">
+
+      <figure style="position:fixed; left:50%; top:30%;">
+        <figcaption  style="text-color:000;text-align:center"><h3>Запуск</h3></figcaption>
+        <img alt="loading" src="/site_static/img/loading.gif" width="66" height="66">
+      </figure>
+
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>Сборщик</h1>
+{% endblock %}
+
+
+{% block side %}
+    {% for head,text in log_lines.items %}
+        {% if head %}
+           <div class="conteiner">
+               <p class="abtn" but="{{ head }}" >{{head}}</p>
+               {% if text%}
+                   <text style="display: none;">{{text}}</text>
+               {% else %}
+                   <text style="display: none;"><br/>not started</text>
+               {% endif %}
+           </div>
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}
+
+{% block section %}
+    <span style="height: 100px;">Выберите ветку</span>
+
+    <br/>
+    {% for head,text in log_lines.items %}
+        <button  id = "{{ head }}" class="branch" style="display:none;" onclick="runbranch('{{head}}');">Запустить ветку</button>
+    {% endfor %}
+    <br/>
+    <br/>
+    <pre style="text-align:left;margin-top:20px;margin-left:40px;font-size:12px"></pre>
+{% endblock %}

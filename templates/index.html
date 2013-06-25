@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block extrascript %}
+<title>Новости сайта</title>
+{% endblock %}
+
+
+{% block section %}
+{% if user.is_authenticated %}
+<h1>Какие люди, {{ user.first_name }}!!!</h1><BR>
+{% else %}
+<h1>Добро пожаловать!!</h1><BR>
+{% endif %}
+<a href="/about/">О проекте</a><BR><BR>
+Перейти к <a href="/upgmaker/"> сборщику</a><BR><BR>
+Перейти к <a href="/knowledge"> базе знаний разработчиков</a><BR>
+{% endblock %}

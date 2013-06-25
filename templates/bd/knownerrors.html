@@ -1,0 +1,40 @@
+﻿{% extends "base.html" %}
+
+{% block extrascript %}
+  <script>
+      $(document).ready(function(){
+            $(".conteiner ").click(function () {
+                var str= $(this).find("text").text();
+                $("span").text(str);
+            });
+      });
+  </script>
+{% endblock %}
+
+{% block content %}
+    <h1>Сборщик</h1>
+
+    <style type="text/css">
+    .conteiner{
+        padding:0 0 0 20px;
+        text-align:right;
+    }
+    section{
+        height:100%;
+    }
+    </style>
+{% endblock %}
+
+{% block side %}
+    {% for head,text in log_lines.items %}
+    	<div class="conteiner">
+           	<a href="#" title=""  >{{head}}</a>
+                <text style="display: none;">{{text}}</text>
+         </div>
+     {% endfor %}
+
+{% endblock %}
+     
+{% block section %}
+     <span style="height: 100px;"></span>
+{% endblock %}

@@ -1,0 +1,74 @@
+﻿{% extends "base.html" %}
+
+{% block extrascript %}
+	<script type="text/javascript"       src='/site_static/js/tinycon.min.js'></script>
+
+  <script>
+      $(document).ready(function(){
+            $(".conteiner ").click(function () {
+                var str= $(this).find("text").text();
+                $("span").text(str);
+        $(".branch").each(function(i, el){
+            $(this).hide();
+        });
+	$("#"+$(this).find("a").attr('but')).show();
+            });
+      });
+
+function load1(data) {
+$.post("/runbranch/", { 
+"branch":data
+  },function(data) {
+alert(data);
+	Tinycon.setBubble("123");
+        $("span").text(data);
+        $(".branch").each(function(i, el){
+            $(this).hide();
+        });
+    });
+}
+  </script>
+{% endblock %}
+
+{% block content %}
+    <h1>Сборщик</h1>
+
+    <style type="text/css">
+    .conteiner{
+        padding:0 0 0 20px;
+        text-align:right;
+    }
+    section{
+        height:100%;
+    }
+    </style>
+{% endblock %}
+
+
+{% block side %}
+    {% for head,text in log_lines.items %}
+	{% if head %}	
+    		<div class="conteiner">
+	           	<a href="#" title=""  but="{{ head }}">{{head}}</a>
+		{% if text%}
+		                <text style="display: none;">{{text}}2222</text>
+		{% else %}
+			<text style="display: none;">{{head}} <br/>not started</text>
+
+		{% endif %}
+		</div>
+	{% endif %}
+     {% endfor %}
+
+{% endblock %}
+     
+{% block section %}
+     <span style="height: 100px;"></span>
+
+    {% for head,text in log_lines.items %}
+	{% if not text%}
+		<button  id = "{{ head }}" class="branch" style="display:none;" onclick="load1('{{head}}');">Запустить ветку</button>
+	{% endif %}
+     {% endfor %}
+
+{% endblock %}
